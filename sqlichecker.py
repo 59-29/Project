@@ -16,7 +16,6 @@ def check_sql_injection(url, payloads):
             for payload in payloads:
                 fuzzed_params = {key: value[0] if key != param_name else payload for key, value in query_params.items()}
                 fuzzed_url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, parsed_url.params, urlencode(fuzzed_params), parsed_url.fragment))
-
                 try:
                     response = requests.get(fuzzed_url, headers=headers)
                     if "error" in response.text.lower() or "exception" in response.text.lower():
