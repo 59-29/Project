@@ -42,4 +42,5 @@ if __name__ == "__main__":
         "83854282' or '1256'='1256"
     ]
 
+
     check_sql_injection(target_url, sql_injection_payloads)
