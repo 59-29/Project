@@ -34,13 +34,8 @@ def check_sql_injection(url, payloads):
 
 if __name__ == "__main__":
     target_url = input("Enter the target URL: ")
-    sql_injection_payloads = [
-        "' OR 1=1 --",
-        "' UNION SELECT * FROM users --",
-        "' AND '1'='1",
-        "'+OR+1=1+--",
-        "83854282' or '1256'='1256"
-    ]
+    with open('sql_injection_payloads.txt', 'r') as f:
+        sql_injection_payloads = f.read().splitlines()
 
 
     check_sql_injection(target_url, sql_injection_payloads)

