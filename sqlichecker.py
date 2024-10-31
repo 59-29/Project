@@ -16,26 +16,27 @@ def check_sql_injection(url, payloads):
             for payload in payloads:
                 fuzzed_params = {key: value[0] if key != param_name else payload for key, value in query_params.items()}
                 fuzzed_url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, parsed_url.params, urlencode(fuzzed_params), parsed_url.fragment))
+
                 try:
                     response = requests.get(fuzzed_url, headers=headers)
                     if "error" in response.text.lower() or "exception" in response.text.lower():
                         print(f"SQL injection vulnerability found on {fuzzed_url} with payload: {payload}")
-                        vulnerable_parameters.append(param_name)
+                        vulnerable_parameters.append((param_name, payload))
                         break
                 except Exception as e:
                     print(f"Error occurred while testing {fuzzed_url}: {str(e)}")
 
     if vulnerable_parameters:
         print("Website is vulnerable to SQL injection in the following parameters:")
-        for param in vulnerable_parameters:
-            print(f"- {param}")
+        for param, payload in vulnerable_parameters:
+            print(f"- {param} with payload: {payload}")
     else:
         print("Website is not vulnerable to SQL injection (or vulnerabilities were not found with the provided payloads).")
 
 if __name__ == "__main__":
     target_url = input("Enter the target URL: ")
+
     with open('sql_injection_payloads.txt', 'r') as f:
-        sql_injection_payloads = f.read().splitlines()
+        payloads = f.read().splitlines()
 
-
-    check_sql_injection(target_url, sql_injection_payloads)
+    check_sql_injection(target_url, payloads)
